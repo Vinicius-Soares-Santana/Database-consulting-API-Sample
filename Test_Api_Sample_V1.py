@@ -3,14 +3,16 @@ from flask_cors import CORS
 from sqlalchemy import create_engine, text
 from psycopg2.extras import RealDictCursor
 import psycopg2
-#from blueprints.auth import auth
+from Api_Sample_Login_V1 import auth
 
 
 app = Flask(__name__)
 
-#app.register_blueprint(auth, url_prefix="/api_authentication")
+app.register_blueprint(auth, url_prefix="/api_authentication")
 
 CORS(app)
+
+#conection string in the same file temporarily
 
 @app.route("/")
 def first_page():

@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, text
 from psycopg2.extras import RealDictCursor
 import psycopg2
 from Api_Sample_Login_V1 import auth
+from App_safety import token_authentication
 
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ def first_page():
 
 
 @app.route("/ABC_ranking", methods=["GET"])
+@token_authentication
 def abc_ranking():
     try:
         conn = psycopg2.connect(host="127.0.0.1", database="guide", user="postgres", password="1234")
@@ -79,6 +81,7 @@ def abc_ranking():
 
 
 @app.route("/stockbreak", methods = ["GET"])
+@token_authentication
 def stock_break_alert():
     try:
         conn = psycopg2.connect(host = "127.0.0.1", database = "guide", user="postgres", password="1234")
@@ -118,6 +121,15 @@ def stock_break_alert():
     finally:
         second_cursor.close()
         conn.close()
+
+
+
+
+@app.route("/test_auth", methods=["GET", "POST"])
+@token_authentication
+def test_func():
+    print("Test path reached")
+    return jsonify("Token Valided successfully"), 200
 
 
 
